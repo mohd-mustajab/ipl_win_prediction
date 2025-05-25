@@ -1,19 +1,19 @@
 import streamlit as st
 import pickle
 import numpy as np
+import os
 
-# Load model and encoders
-with open("model.pkl", "rb") as f:
-    model = pickle.load(f)
+# Ensure all files are in the same directory
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-with open("team_encoder.pkl", "rb") as f:
-    team_encoder = pickle.load(f)
+def load_pickle(filename):
+    with open(os.path.join(BASE_DIR, filename), "rb") as f:
+        return pickle.load(f)
 
-with open("venue_encoder.pkl", "rb") as f:
-    venue_encoder = pickle.load(f)
-
-with open("toss_decision_encoder.pkl", "rb") as f:
-    toss_decision_encoder = pickle.load(f)
+model = load_pickle("model.pkl")
+team_encoder = load_pickle("team_encoder.pkl")
+venue_encoder = load_pickle("venue_encoder.pkl")
+toss_decision_encoder = load_pickle("toss_decision_encoder.pkl")
 
 st.title("🏏 IPL Match Winner Predictor")
 
