@@ -1,27 +1,19 @@
 import streamlit as st
-import os
 import pickle
 import numpy as np
 
-# Check file presence
-required_files = ["model.pkl", "encoders.pkl"]
-for file in required_files:
-    if not os.path.exists(file):
-        st.error(f"❌ Missing required file: {file}")
-        st.stop()
-
-# Load model
+# Load model and encoders
 with open("model.pkl", "rb") as f:
     model = pickle.load(f)
 
-# Load encoders
-with open("encoders.pkl", "rb") as f:
-    encoders = pickle.load(f)
+with open("team_encoder.pkl", "rb") as f:
+    team_encoder = pickle.load(f)
 
-team_encoder = encoders['team_encoder']
-venue_encoder = encoders['venue_encoder']
-toss_decision_encoder = encoders['toss_decision_encoder']
+with open("venue_encoder.pkl", "rb") as f:
+    venue_encoder = pickle.load(f)
 
+with open("toss_decision_encoder.pkl", "rb") as f:
+    toss_decision_encoder = pickle.load(f)
 
 st.title("🏏 IPL Match Winner Predictor")
 
