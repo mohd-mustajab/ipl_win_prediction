@@ -1,19 +1,19 @@
 import streamlit as st
-import pickle
+import joblib
 import numpy as np
 import os
 
 # Ensure all files are in the same directory
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-def load_pickle(filename):
-    with open(os.path.join(BASE_DIR, filename), "rb") as f:
-        return pickle.load(f)
+def load_model(filename):
+    return joblib.load(os.path.join(BASE_DIR, filename))
 
-model = load_pickle("model.pkl")
-team_encoder = load_pickle("team_encoder.pkl")
-venue_encoder = load_pickle("venue_encoder.pkl")
-toss_decision_encoder = load_pickle("toss_decision_encoder.pkl")
+# Load models/encoders
+model = load_model("model.pkl")
+team_encoder = load_model("team_encoder.pkl")
+venue_encoder = load_model("venue_encoder.pkl")
+toss_decision_encoder = load_model("toss_decision_encoder.pkl")
 
 st.title("🏏 IPL Match Winner Predictor")
 
@@ -21,7 +21,7 @@ team_names = list(team_encoder.classes_)
 venue_names = list(venue_encoder.classes_)
 toss_decision_options = list(toss_decision_encoder.classes_)
 
-# UI inputs
+# UI
 team1 = st.selectbox("Team 1", team_names)
 team2 = st.selectbox("Team 2", [t for t in team_names if t != team1])
 venue = st.selectbox("Venue", venue_names)
@@ -47,3 +47,4 @@ if st.button("Predict Winner"):
         st.info(f"📊 Confidence: {confidence:.2f}%")
     except Exception as e:
         st.error(f"Prediction failed: {e}")
+
